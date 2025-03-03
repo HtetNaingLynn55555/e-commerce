@@ -1,9 +1,15 @@
 let DB = require("../../models/Authorization/permission");
 
 let all = async(requset, response)=>{
-    response.json({
-        message : 'get all permission'
-    })
+    let permission = await DB.find();
+    if(permission)
+    {
+        
+    }
+    else
+    {
+
+    }
 }
 
 
