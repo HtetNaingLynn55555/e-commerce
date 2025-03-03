@@ -6,7 +6,7 @@ let {bodyValidator, paramsValidator} = require('../../middleware/validator');
 router.get('/', controller.all);
 router.post('/',bodyValidator(nameSchema), controller.create);
 router.route('/:id')
-        .get(controller.details)
+        .get(paramsValidator(idSchema, "id"), controller.details)
         .patch(controller.update)
         .delete(controller.drop);
 

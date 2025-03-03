@@ -37,11 +37,20 @@ let create = async(request, response, next)=>{
 }
 
 let details = async(request, response, next)=>{
+    let checkRoleExist = await DB.findById(request.params.id).populate('permission_id').select('-__v');
+    if(checkRoleExist)
+    {
+        success(response, 200, "role fetching success", checkRoleExist);
 
+    }
+    else
+    {
+        next(new Error('canont find role with given id'));
+    }
 }
 
 let update = async(request, response, next)=>{
-
+    
 }
 
 let drop = async(request, response, next)=>{
