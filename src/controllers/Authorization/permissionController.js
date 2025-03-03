@@ -13,12 +13,25 @@ let all = async(requset, response)=>{
 }
 
 
-let create = async(request, response)=>{
+let create = async(request, response,next)=>{
     try{
-        let {name} = request.body;
-        response.json({
-            message : name
-        })
+        
+        let existingName = await DB.findOne({name : request.body.name});
+        if(existingName)
+        {
+            throw new Error('permission name already exist');
+            
+        }
+        let permission = await  DB.create(request.body);
+        if(permission)
+        {
+            success(response, 201, "permission created", permission)
+        }
+        else
+        {
+            throw new Error('permission create fail')
+        }
+
     }
     catch(error)
     {

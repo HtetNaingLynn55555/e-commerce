@@ -1,6 +1,5 @@
 let bodyValidator = (schema) =>{
     return (request, response, next)=>{
-        console.log("=>",schema);
         let {error, result} = schema.validate(request.body);
 
         if(error)

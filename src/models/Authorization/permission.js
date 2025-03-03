@@ -7,6 +7,6 @@ let permissionSchema = new Schema({
     created_at : {type: Date, defaults : Date.now},
 })
 
-let Permission = mongoose.model('permission', permissionSchema);
+let Permission = mongoose.model('Permission', permissionSchema);
 
 module.exports = Permission;
