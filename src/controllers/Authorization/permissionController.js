@@ -67,7 +67,7 @@ let update = async(request, response, next)=>{
         let updatePermission = await DB.findByIdAndUpdate(permission._id, request.body);
         if(updatePermission)
         {
-            let data = await DB.findById(updatePermission._id);
+            let data = await DB.findById(updatePermission._id).select('-__v');
             success(response, 201, 'permission update success',data )
         }
         else{
