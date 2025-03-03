@@ -17,6 +17,6 @@ mongoose.connect(`mongodb://127.0.0.1:27017/${process.env.DB_NAME}`);
 
 
 // Router
-app.use('/api/permission', permissionRouter);
+app.use('/api/permissions', permissionRouter);
 
 app.listen(`${PORT}`, console.log(`App is running at port ${PORT}`))
