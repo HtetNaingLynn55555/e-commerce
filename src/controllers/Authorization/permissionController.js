@@ -41,9 +41,7 @@ let create = async(request, response,next)=>{
 }
 
 let details = async(request, response)=>{
-    response.json({
-        message : 'get one permission'
-    })
+    response.end('end')
 }
 
 let update = async(request, response)=>{
