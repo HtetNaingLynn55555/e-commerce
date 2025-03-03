@@ -8,7 +8,7 @@ let all = async(requset, response)=>{
     }
     else
     {
-
+        next(new Error('Server Error'))
     }
 }
 
