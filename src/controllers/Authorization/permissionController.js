@@ -1,4 +1,4 @@
-let DB = require('../models/Authorization/permission');
+let DB = require("../../models/Authorization/permission");
 
 let all = async(requset, response)=>{
     response.json({
@@ -13,7 +13,7 @@ let create = async(request, response)=>{
     })
 }
 
-let get = async(request, response)=>{
+let details = async(request, response)=>{
     response.json({
         message : 'get one permission'
     })
@@ -33,7 +33,7 @@ let drop = async(request, response) =>{
 module.exports = {
     all,
     create,
-    get,
+    details,
     update,
     drop,
 
