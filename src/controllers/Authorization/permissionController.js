@@ -80,10 +80,31 @@ let update = async(request, response, next)=>{
     }
 }   
 
-let drop = async(request, response) =>{
-    response.json({
-        message : 'drop permission'
-    })
+let drop = async(request, response, next) =>{
+    try
+    {
+        let permission = await DB.findById(request.params.id);
+        if(permission)
+        {
+            let dropPermission = await DB.findByIdAndDelete(permission._id);
+            if(dropPermission)
+            {
+                success(response, 201, "permission delete success", dropPermission)
+            }
+            else
+            {
+                throw new Error('cannot delete permission')
+            }
+        }
+        else
+        {
+            throw new Error('cannot find permission with given id')
+        }
+    }
+    catch(error)
+    {
+        next(new Error(error.message))
+    }
 }
 module.exports = {
     all,

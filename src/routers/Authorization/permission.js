@@ -8,6 +8,6 @@ router.post('/',bodyValidator(nameSchema), controller.create);
 router.route('/:id')
         .get(paramsValidator(idSchema,"id"), controller.details)
         .patch(paramsValidator(idSchema, "id"),bodyValidator(nameSchema), controller.update)
-        .delete(controller.drop)
+        .delete(paramsValidator(idSchema,"id"), controller.drop);
 
 module.exports = router;
