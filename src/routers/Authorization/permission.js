@@ -7,7 +7,7 @@ router.get('/', controller.all);
 router.post('/',bodyValidator(nameSchema), controller.create);
 router.route('/:id')
         .get(paramsValidator(idSchema,"id"), controller.details)
-        .patch(controller.update)
+        .patch(paramsValidator(idSchema, "id"),bodyValidator(nameSchema), controller.update)
         .delete(controller.drop)
 
 module.exports = router;

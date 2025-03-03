@@ -52,9 +52,33 @@ let details = async(request, response, next)=>{
     }
 }
 
-let update = async(request, response)=>{
-    
-}
+let update = async(request, response, next)=>{
+    try{
+        let permission = await DB.findById(request.params.id);
+        if(!permission)
+        {
+            throw new Error('cannot find the permission with given id')
+        }
+        let permissionExist = await DB.findOne({name : request.body.name})
+        if(permissionExist)
+        {
+            throw new Error('permission name already exist')
+        }
+        let updatePermission = await DB.findByIdAndUpdate(permission._id, request.body);
+        if(updatePermission)
+        {
+            let data = await DB.findById(updatePermission._id);
+            success(response, 201, 'permission update success',data )
+        }
+        else{
+            throw new Error('update permission fail')
+        }
+    }
+    catch(error)
+    {
+        next(new Error(error.message))
+    }
+}   
 
 let drop = async(request, response) =>{
     response.json({
