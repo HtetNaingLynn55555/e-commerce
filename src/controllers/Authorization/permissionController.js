@@ -40,14 +40,20 @@ let create = async(request, response,next)=>{
     }
 }
 
-let details = async(request, response)=>{
-    response.end('end')
+let details = async(request, response, next)=>{
+    let permission = await DB.findById(request.params.id).select("-__v");
+    if(permission)
+    {
+        success(response, 200, 'permission fetching success', permission)
+    }
+    else
+    {
+        next(new Error('permission fetching fail with given id'))
+    }
 }
 
 let update = async(request, response)=>{
-    response.json({
-        message : 'update permission'
-    })
+    
 }
 
 let drop = async(request, response) =>{
