@@ -1,10 +1,10 @@
 let DB = require("../../models/Authorization/permission");
-
+let {success} = require('../../utils/helper');
 let all = async(requset, response)=>{
     let permission = await DB.find();
     if(permission)
     {
-        
+        success(response,200, "permessions List", permission)
     }
     else
     {
@@ -14,9 +14,7 @@ let all = async(requset, response)=>{
 
 
 let create = async(request, response)=>{
-    response.json({
-        message : 'create  permission'
-    })
+    
 }
 
 let details = async(request, response)=>{
