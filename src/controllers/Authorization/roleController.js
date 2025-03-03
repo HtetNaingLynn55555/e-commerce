@@ -2,7 +2,7 @@ let DB = require('../../models/Authorization/role');
 let {success} = require('../../utils/helper')
 
 let all = async(request, response, next)=>{
-    let roles = await DB.find();
+    let roles = await DB.find().select("-__v");
     if(roles)
     {
         success(response, 200, "role fetching success", roles);
@@ -14,7 +14,26 @@ let all = async(request, response, next)=>{
 }
 
 let create = async(request, response, next)=>{
-
+    try{
+        let checkRoleExist = await DB.findOne({name : request.body.name});
+        if(checkRoleExist)
+        {
+            throw new Error('role is already exist')
+        } 
+        let role = await DB.create(request.body);
+        if(role)
+        {
+            success(response, 201, 'role create success', role)
+        }
+        else
+        {
+            throw new Error('role create fail!');
+        }
+    }
+    catch(error)
+    {
+        next(new Error(error.message))
+    }
 }
 
 let details = async(request, response, next)=>{
