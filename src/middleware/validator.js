@@ -1,13 +1,19 @@
 let bodyValidator = (schema) =>{
     return (request, response, next)=>{
-        let [error, result] = schema.validate(request.body);
+        console.log("=>",schema);
+        let {error, result} = schema.validate(request.body);
+
         if(error)
         {
-            next(new Error(error.details[0]))
+            next(new Error(error.details[0].message))
         }
         else
         {
-            next()
+            next();
         }
     }
+}
+
+module.exports = {
+    bodyValidator,
 }

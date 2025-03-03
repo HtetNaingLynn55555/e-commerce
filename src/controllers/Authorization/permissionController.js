@@ -14,7 +14,17 @@ let all = async(requset, response)=>{
 
 
 let create = async(request, response)=>{
-    
+    try{
+        let {name} = request.body;
+        response.json({
+            message : name
+        })
+    }
+    catch(error)
+    {
+        next(new Error(error.message))
+
+    }
 }
 
 let details = async(request, response)=>{
