@@ -50,7 +50,40 @@ let details = async(request, response, next)=>{
 }
 
 let update = async(request, response, next)=>{
-    
+    try{
+        let checkRoleExist = await DB.findById(request.params.id);
+        if(checkRoleExist)
+        {
+
+            let existingRole = await DB.findOne({name : request.body.name});
+            if(!existingRole)
+            {
+                let updateRole = await DB.findByIdAndUpdate(checkRoleExist._id, request.body);
+                if(updateRole)
+                {
+                    let result = await DB.findById(updateRole._id);
+                    success(response, 201, 'role update success', result);
+                }
+                else
+                {
+                    throw new Error('role update fail')
+                }
+            }
+            else
+            {
+                throw new Error('role name already exist')
+            }
+            
+        }
+        else
+        {
+            throw new Error('Role does not exist with given id')
+        }
+
+    }catch(error)
+    {
+        next(new Error(error.message))
+    }
 }
 
 let drop = async(request, response, next)=>{
