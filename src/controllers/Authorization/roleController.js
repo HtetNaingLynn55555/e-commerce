@@ -1,8 +1,9 @@
 let DB = require('../../models/Authorization/role');
+let PermissionDB = require('../../models/Authorization/permission') 
 let {success} = require('../../utils/helper');
 
 let all = async(request, response, next)=>{
-    let roles = await DB.find().select("-__v");
+    let roles = await DB.find().populate('permission_id').select("-__v");
     if(roles)
     {
         success(response, 200, "role fetching success", roles);
@@ -100,11 +101,48 @@ let drop = async(request, response, next)=>{
 }
 
 let roleAddPermission = async(request, response, next)=>{
-
+    let role = await DB.findById(request.body.role_id);
+    let permission = await PermissionDB.findById(request.body.permission_id);
+    if(role && permission)
+    {
+        let addRoleToPermission = await DB.findByIdAndUpdate(role._id,{$push : {permission_id : permission._id}})
+        let result = await DB.findById(addRoleToPermission._id).populate('permission_id', "-__v").select('-__v');
+        if(result)
+        {
+            success(response, 201, "add permission to role success", result)
+        }
+        else
+        {
+            next(new Error('cannot add permission to role'));
+        }
+    }
+    else
+    {
+        next(new Error('cannot find role or permission with given id'))
+    }
 }
 
 let roleRemovePermission = async(request, response, next)=>{
-
+    let checkRole = await DB.findById(request.body.role_id);
+    let checkPermission = await PermissionDB.findById(request.body.permission_id);
+    if(checkRole && checkPermission)
+    {
+        let removePermission = await DB.findByIdAndUpdate(checkRole._id, {$pull :{permission_id : checkPermission._id}});
+        if(removePermission)
+        {
+            let result = await DB.findById(removePermission._id).populate('permission_id').select("-__v")
+            success(response, 201, 'permission id remove', result );
+        }
+        else
+        {
+            next(new Error('cannot remove permission'))
+        }
+    }
+    else
+    {
+        next(new Error('role or permission can not find with given id'))
+    }
+ 
 }
 
 module.exports = {

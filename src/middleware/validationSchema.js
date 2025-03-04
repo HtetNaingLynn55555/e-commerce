@@ -7,5 +7,9 @@ module.exports = {
     idSchema : Joi.object({
         id : Joi.string().pattern(new RegExp('^[0-9a-fA-F]{24}$'))
     }),
+    RoleAddRemoveSchema : Joi.object({
+        permission_id : Joi.string().pattern(new RegExp('^[0-9a-fA-F]{24}$')),
+        role_id : Joi.string().pattern(new RegExp('^[0-9a-fA-F]{24}$')),
+    })
     
 }
