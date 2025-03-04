@@ -5,6 +5,8 @@ let {bodyValidator, paramsValidator} = require('../../middleware/validator');
 
 router.get('/', controller.all);
 router.post('/',bodyValidator(nameSchema), controller.create);
+router.post('/addPermission', controller.roleAddPermission);
+router.post('/removePermission', controller.roleRemovePermission);
 router.route('/:id')
         .get(paramsValidator(idSchema, "id"), controller.details)
         .patch(paramsValidator(idSchema, "id"), bodyValidator(nameSchema), controller.update)

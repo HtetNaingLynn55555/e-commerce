@@ -1,5 +1,5 @@
 let DB = require('../../models/Authorization/role');
-let {success} = require('../../utils/helper')
+let {success} = require('../../utils/helper');
 
 let all = async(request, response, next)=>{
     let roles = await DB.find().select("-__v");
@@ -87,7 +87,16 @@ let update = async(request, response, next)=>{
 }
 
 let drop = async(request, response, next)=>{
-
+    let checkRole = await DB.findById(request.params.id);
+    if(checkRole)
+    {
+        let result = await DB.findByIdAndDelete(checkRole._id);
+        success(response, 201, 'role delete success', result)
+    }
+    else
+    {
+        next(new Error('cannot find role with that id'))
+    }
 }
 
 module.exports = {
