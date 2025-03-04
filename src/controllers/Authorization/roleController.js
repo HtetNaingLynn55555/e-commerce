@@ -99,10 +99,20 @@ let drop = async(request, response, next)=>{
     }
 }
 
+let roleAddPermission = async(request, response, next)=>{
+
+}
+
+let roleRemovePermission = async(request, response, next)=>{
+
+}
+
 module.exports = {
     all,
     create,
     details,
     update,
     drop,
+    roleAddPermission,
+    roleRemovePermission,
 }
