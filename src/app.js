@@ -2,6 +2,9 @@ require('dotenv').config()
 let express = require('express')
 let mongoose = require('mongoose');
 
+// migrator import
+let {migrator} = require('./migration/migrator');
+
 // Router import
 let permissionRouter = require('./routers/Authorization/permission')
 let roleRouter = require('./routers/Authorization/role')
@@ -35,5 +38,7 @@ app.use("*", (request, response, next)=>{
         message : "under maintainence"
     })
 })
+
+migrator()
 
 app.listen(`${PORT}`, console.log(`App is running at port ${PORT}`))
