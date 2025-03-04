@@ -3,7 +3,7 @@ let express = require('express')
 let mongoose = require('mongoose');
 
 // migrator import
-let {migrator} = require('./migration/migrator');
+let {migrator,backupUserData} = require('./migration/migrator');
 
 // Router import
 let permissionRouter = require('./routers/Authorization/permission')
@@ -39,6 +39,7 @@ app.use("*", (request, response, next)=>{
     })
 })
 
-migrator()
+// migrator()
+// backupUserData()
 
 app.listen(`${PORT}`, console.log(`App is running at port ${PORT}`))

@@ -1,4 +1,4 @@
-let bcrypt = require('bcrypt')
+let bcrypt = require('bcryptjs')
 
 let success = async(response, status=200, message = "success", data=[])=>{
     response.status(status).json({
@@ -7,8 +7,9 @@ let success = async(response, status=200, message = "success", data=[])=>{
     })
 }
 
-let encode = (password, salt)=>{
-    let hash = bcrypt.hashSync(password, bcrypt.genSalt(salt));
+let encode = (password, saltCount)=>{
+    let salt = bcrypt.genSaltSync(saltCount);
+    let hash = bcrypt.hashSync(password, salt);
     return hash;
 }
 
