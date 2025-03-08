@@ -1,6 +1,6 @@
 const { response } = require('express');
 let DB = require('../models/user');
-let {success, encode, tokenGenerator} = require('../utils/helper');
+let {success, encode, tokenGenerator, compareHash} = require('../utils/helper');
 
 let all = async(request, response, next)=>{
     response.end('all');
@@ -23,7 +23,41 @@ let drop = async(request, response, next)=>{
 }
 
 let login = async(request, response, next)=>{
-    response.end('login');
+    if(request.body.email)
+    {
+        let checkUser = await DB.findOne({email : request.body.email});
+        if(checkUser && compareHash(request.body.password, checkUser?.password))
+        {
+            let payload = {data: checkUser._id};
+            let token = tokenGenerator(payload);
+            success(response, 201, "user login success", token)
+
+        }
+        else
+        {
+            next(new Error('login fail email or password wrong'))
+        }
+
+    }
+    else if(request.body.phone)
+    {
+        let checkUser = await DB.findOne({phone : request.body.phone});
+        if(checkUser && compareHash(request.body.password, checkUser?.password))
+        {
+            let payload = {data: checkUser._id};
+            let token = tokenGenerator(payload);
+            success(response, 201, "user login success", token)
+
+        }
+        else
+        {
+            next(new Error('login fail phone or password wrong'))
+        }
+    }
+    else
+    {
+        next(new Error('we nee email or phone require to login'))
+    }
 }
 
 let register = async(request, response, next)=>{
@@ -61,8 +95,6 @@ let register = async(request, response, next)=>{
             next(new Error('user register fail'))
         }
         
-        
-
     }
     catch(error)
     {
