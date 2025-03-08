@@ -22,6 +22,19 @@ let tokenGenerator = (payload)=>{
    return jwt.sign(payload, process.env.SECRET_KEY, {expiresIn : "12h"})
 }
 
+let verifyToken = (payload)=>{
+    return jwt.verify(payload, process.env.SECRET_KEY, (err, data)=>{
+        if(err)
+        {
+            return false;
+        }
+        else
+        {
+            return data
+        }
+    });
+}
+
 
 
   
@@ -31,4 +44,5 @@ module.exports = {
     encode,
     compareHash,
     tokenGenerator,
+    verifyToken
 }

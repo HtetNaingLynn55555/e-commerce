@@ -1,3 +1,6 @@
+let {verifyToken} = require('../utils/helper');
+let DB = require('../models/user');
+
 let bodyValidator = (schema) =>{
     
     return (request, response, next)=>{
@@ -31,7 +34,46 @@ let paramsValidator = (schema, name)=>{
     }
 }
 
+let tokenValidator = async(request, response, next)=>{
+    let bareertoken = request.headers.authorization || request.headers.Authorization;
+    if(bareertoken)
+    {
+        let token = bareertoken.split(' ')[1];
+        if(token)
+        {
+           let data = verifyToken(token)
+           if(data)
+           {
+                let user = await DB.findById(data.data);
+                if(user)
+                {
+                    console.log('error')
+                    next()
+                }
+                else
+                {
+                    next(new Error('Creditenal error'))
+                }
+                
+           }
+           else
+           {
+                next(new Error('Invalid Token'))
+           }
+        }   
+        else
+        {
+            next(new Error('invalid token'))
+        }
+    }
+    else
+    {
+        next(new Error('inavlid token'))
+    }
+}
+
 module.exports = {
     bodyValidator,
+    tokenValidator,
     paramsValidator,
 }

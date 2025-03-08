@@ -1,13 +1,13 @@
 let router = require('express').Router();
 let controller = require('../controllers/userController');
 let {UserSchema} = require('../middleware/validationSchema')
-let {bodyValidator, paramsValidator} = require('../middleware/validator');
+let {bodyValidator, paramsValidator,tokenValidator} = require('../middleware/validator');
 
 
 
 // Router
 
-router.get('/', controller.all);
+router.get('/',tokenValidator, controller.all);
 router.post('/', controller.create);
 router.route('/:id')
         .get(controller.details)
