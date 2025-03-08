@@ -22,11 +22,21 @@ let drop = async(request, response, next)=>{
     response.end('drop')
 }
 
+let login = async(request, response, next)=>{
+    response.end('login');
+}
+
+let register = async(request, response, next)=>{
+    response.end('register');
+}
+
 
 module.exports = {
     all,
     create,
     details,
     update,
-    drop
+    drop,
+    login,
+    register,
 }

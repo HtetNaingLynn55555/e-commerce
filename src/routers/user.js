@@ -10,6 +10,8 @@ router.post('/', controller.create);
 router.route('/:id')
         .get(controller.details)
         .patch(controller.update)
-        .delete(controller.drop)
+        .delete(controller.drop);
+router.post('/login', controller.login);
+router.post('/register', controller.register);
 
 module.exports = router

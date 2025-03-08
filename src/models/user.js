@@ -6,7 +6,9 @@ let userSchema = new Schema({
     email : {type :String, required: true, unique: true},
     phone : {type : String, required : true, unique: true},
     password : {type : String, required : true},
-    created_at : {type : Date, default : Date.now}
+    role_id : {type : Schema.Types.ObjectId, ref: "role"},
+    permission_id : {type: Schema.Types.ObjectId, ref: 'permission'},
+    created_at : {type : Date, default : Date.now},
 })
 
 let User = mongoose.model('User', userSchema);
