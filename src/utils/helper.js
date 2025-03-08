@@ -1,4 +1,5 @@
-let bcrypt = require('bcryptjs')
+let bcrypt = require('bcryptjs');
+let jwt = require('jsonwebtoken');
 
 let success = async(response, status=200, message = "success", data=[])=>{
     response.status(status).json({
@@ -17,8 +18,17 @@ let compareHash = (password, hash)=>{
     return bcrypt.compareSync(password, hash);
 }
 
+let tokenGenerator = (payload)=>{
+   return jwt.sign(payload, process.env.SECRET_KEY, {expiresIn : "12h"})
+}
+
+
+
+  
+
 module.exports = {
     success,
     encode,
-    compareHash
+    compareHash,
+    tokenGenerator,
 }

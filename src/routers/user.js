@@ -1,5 +1,7 @@
 let router = require('express').Router();
 let controller = require('../controllers/userController');
+let {UserSchema} = require('../middleware/validationSchema')
+let {bodyValidator, paramsValidator} = require('../middleware/validator');
 
 
 
@@ -12,6 +14,6 @@ router.route('/:id')
         .patch(controller.update)
         .delete(controller.drop);
 router.post('/login', controller.login);
-router.post('/register', controller.register);
+router.post('/register', bodyValidator(UserSchema), controller.register);
 
 module.exports = router

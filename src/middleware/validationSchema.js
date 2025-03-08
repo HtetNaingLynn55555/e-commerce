@@ -16,6 +16,7 @@ module.exports = {
         email : Joi.string().email().required(),
         password : Joi.string().required(),
         phone : Joi.string().min(7).max(11).required()
-    })
+    }),
+    
     
 }
